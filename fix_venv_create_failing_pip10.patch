@@ -1,8 +1,8 @@
 diff --git a/performance/venv.py b/performance/venv.py
-index 0744e7b..c0980b5 100644
+index 0744e7b..a1daf60 100644
 --- a/performance/venv.py
 +++ b/performance/venv.py
-@@ -495,9 +495,10 @@ class VirtualEnvironment(object):
+@@ -495,14 +495,16 @@ class VirtualEnvironment(object):
          self.run_cmd(cmd)
  
          # install indirect requirements
@@ -15,4 +15,13 @@ index 0744e7b..c0980b5 100644
 +            self.run_cmd(cmd)
  
          # install requirements
-         cmd = pip_program + ['install']
+-        cmd = pip_program + ['install']
+-        cmd.extend(requirements.req)
+-        self.run_cmd(cmd)
++        if requirements.req:
++            cmd = pip_program + ['install']
++            cmd.extend(requirements.req)
++            self.run_cmd(cmd)
+ 
+         # install optional requirements
+         for req in requirements.optional:
