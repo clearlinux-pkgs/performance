@@ -1,0 +1,31 @@
+From 2640e3511c4e4809111c4d38a1cf2cfd8bf43229 Mon Sep 17 00:00:00 2001
+From: Victor Rodriguez <victor.rodriguez.bahena@intel.com>
+Date: Wed, 25 Jul 2018 22:56:36 +0000
+Subject: [PATCH] Fix --inside-venv boolean flag to actually work
+
+By enablement of this bool flag, the performance benchmark first creates a
+virtual environment where it installs requirements with fixed versions to get
+a reproductible environment. If this flag is not set the benchmark take
+the installed requirements by OS provider
+
+Signed-off-by: Victor Rodriguez <victor.rodriguez.bahena@intel.com>
+---
+ performance/cli.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/performance/cli.py b/performance/cli.py
+index 72920e3..e972b2e 100644
+--- a/performance/cli.py
++++ b/performance/cli.py
+@@ -202,7 +202,7 @@ def _main():
+         cmd_show(options)
+         sys.exit()
+ 
+-    if not options.inside_venv:
++    if options.inside_venv:
+         exec_in_virtualenv(options)
+ 
+     from performance.cli_run import cmd_run, cmd_list, cmd_list_groups
+-- 
+2.18.0
+

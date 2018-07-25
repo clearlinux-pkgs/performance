@@ -1,1 +1,2 @@
 fix_venv_create_failing_pip10.patch
+Fix-inside-venv.patch

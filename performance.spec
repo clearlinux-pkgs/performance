@@ -4,7 +4,7 @@
 #
 Name     : performance
 Version  : 0.6.1
-Release  : 2
+Release  : 3
 URL      : https://github.com/python/performance/archive/0.6.1.tar.gz
 Source0  : https://github.com/python/performance/archive/0.6.1.tar.gz
 Summary  : No detailed summary available
@@ -37,6 +37,7 @@ BuildRequires : pytest
 BuildRequires : tox
 BuildRequires : virtualenv
 Patch1: fix_venv_create_failing_pip10.patch
+Patch2: Fix-inside-venv.patch
 
 %description
 ##########################
@@ -81,13 +82,14 @@ python3 components for the performance package.
 %prep
 %setup -q -n performance-0.6.1
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1532553382
+export SOURCE_DATE_EPOCH=1532559872
 python3 setup.py build -b py3
 
 %install
