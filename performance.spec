@@ -4,7 +4,7 @@
 #
 Name     : performance
 Version  : 0.6.1
-Release  : 1
+Release  : 2
 URL      : https://github.com/python/performance/archive/0.6.1.tar.gz
 Source0  : https://github.com/python/performance/archive/0.6.1.tar.gz
 Summary  : No detailed summary available
@@ -14,29 +14,29 @@ Requires: performance-bin
 Requires: performance-python3
 Requires: performance-license
 Requires: performance-python
+Requires: Django
 Requires: Mako
 Requires: MarkupSafe
 Requires: SQLAlchemy
 Requires: certifi
 Requires: docutils
 Requires: html5lib
+Requires: mpmath
 Requires: pip
 Requires: psutil
 Requires: setuptools
 Requires: six
+Requires: sympy
 Requires: tornado
 Requires: webencodings
 Requires: wheel
-BuildRequires : pbr
-BuildRequires : pip
+BuildRequires : buildreq-distutils3
 BuildRequires : pluggy
 BuildRequires : py-python
 BuildRequires : pytest
-BuildRequires : python-dev
-BuildRequires : python3-dev
-BuildRequires : setuptools
 BuildRequires : tox
 BuildRequires : virtualenv
+Patch1: fix_venv_create_failing_pip10.patch
 
 %description
 ##########################
@@ -80,13 +80,14 @@ python3 components for the performance package.
 
 %prep
 %setup -q -n performance-0.6.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1529339838
+export SOURCE_DATE_EPOCH=1532553382
 python3 setup.py build -b py3
 
 %install
