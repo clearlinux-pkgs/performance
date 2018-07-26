@@ -4,7 +4,7 @@
 #
 Name     : performance
 Version  : 0.6.1
-Release  : 3
+Release  : 4
 URL      : https://github.com/python/performance/archive/0.6.1.tar.gz
 Source0  : https://github.com/python/performance/archive/0.6.1.tar.gz
 Summary  : No detailed summary available
@@ -17,15 +17,17 @@ Requires: performance-python
 Requires: Django
 Requires: Mako
 Requires: MarkupSafe
-Requires: SQLAlchemy
 Requires: certifi
 Requires: docutils
+Requires: genshic
 Requires: html5lib
 Requires: mpmath
 Requires: pip
 Requires: psutil
+Requires: pyaes
 Requires: setuptools
 Requires: six
+Requires: sqlalchemy
 Requires: sympy
 Requires: tornado
 Requires: webencodings
@@ -89,7 +91,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1532559872
+export SOURCE_DATE_EPOCH=1532565530
 python3 setup.py build -b py3
 
 %install
