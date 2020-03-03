@@ -4,16 +4,16 @@
 #
 Name     : performance
 Version  : 0.6.1
-Release  : 15
+Release  : 16
 URL      : https://github.com/python/performance/archive/0.6.1.tar.gz
 Source0  : https://github.com/python/performance/archive/0.6.1.tar.gz
-Summary  : No detailed summary available
+Summary  : High-Performance library for Data Structures manipulation
 Group    : Development/Tools
 License  : MIT
-Requires: performance-bin
-Requires: performance-python3
-Requires: performance-license
-Requires: performance-python
+Requires: performance-bin = %{version}-%{release}
+Requires: performance-license = %{version}-%{release}
+Requires: performance-python = %{version}-%{release}
+Requires: performance-python3 = %{version}-%{release}
 Requires: Django
 Requires: Mako
 Requires: MarkupSafe
@@ -22,22 +22,46 @@ Requires: certifi
 Requires: docutils
 Requires: dulwich
 Requires: html5lib
+Requires: mercurial
 Requires: mpmath
+Requires: pathlib2
 Requires: pip
 Requires: psutil
 Requires: pyaes
 Requires: setuptools
+Requires: singledispatch
 Requires: six
 Requires: sympy
 Requires: tornado
 Requires: webencodings
 Requires: wheel
+BuildRequires : Django
+BuildRequires : Mako
+BuildRequires : MarkupSafe
+BuildRequires : SQLAlchemy
 BuildRequires : buildreq-distutils3
+BuildRequires : certifi
+BuildRequires : docutils
+BuildRequires : dulwich
+BuildRequires : html5lib
+BuildRequires : mercurial
+BuildRequires : mpmath
+BuildRequires : pathlib2
+BuildRequires : pip
 BuildRequires : pluggy
+BuildRequires : psutil
 BuildRequires : py-python
+BuildRequires : pyaes
 BuildRequires : pytest
+BuildRequires : setuptools
+BuildRequires : singledispatch
+BuildRequires : six
+BuildRequires : sympy
+BuildRequires : tornado
 BuildRequires : tox
 BuildRequires : virtualenv
+BuildRequires : webencodings
+BuildRequires : wheel
 Patch1: fix_venv_create_failing_pip10.patch
 Patch2: Fix-inside-venv.patch
 
@@ -49,7 +73,7 @@ The Python Benchmark Suite
 %package bin
 Summary: bin components for the performance package.
 Group: Binaries
-Requires: performance-license
+Requires: performance-license = %{version}-%{release}
 
 %description bin
 bin components for the performance package.
@@ -66,7 +90,7 @@ license components for the performance package.
 %package python
 Summary: python components for the performance package.
 Group: Default
-Requires: performance-python3
+Requires: performance-python3 = %{version}-%{release}
 
 %description python
 python components for the performance package.
@@ -82,7 +106,8 @@ python3 components for the performance package.
 
 
 %prep
-%setup -q -n performance-0.6.1
+%setup -q -n pyperformance-0.6.1
+cd %{_builddir}/pyperformance-0.6.1
 %patch1 -p1
 %patch2 -p1
 
@@ -90,15 +115,23 @@ python3 components for the performance package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1533681059
-python3 setup.py build -b py3
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1583201756
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+export MAKEFLAGS=%{?_smp_mflags}
+python3 setup.py build
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/performance
-cp COPYING %{buildroot}/usr/share/doc/performance/COPYING
-python3 -tt setup.py build -b py3 install --root=%{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/performance
+cp %{_builddir}/pyperformance-0.6.1/COPYING %{buildroot}/usr/share/package-licenses/performance/8d7eb7ca3a8f0f7125ff91b4517cf42602cb0573
+python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -111,8 +144,8 @@ echo ----[ mark ]----
 /usr/bin/pyperformance
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/performance/COPYING
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/performance/8d7eb7ca3a8f0f7125ff91b4517cf42602cb0573
 
 %files python
 %defattr(-,root,root,-)
