@@ -4,7 +4,7 @@
 #
 Name     : performance
 Version  : 0.6.1
-Release  : 16
+Release  : 17
 URL      : https://github.com/python/performance/archive/0.6.1.tar.gz
 Source0  : https://github.com/python/performance/archive/0.6.1.tar.gz
 Summary  : High-Performance library for Data Structures manipulation
